@@ -21,10 +21,10 @@ namespace ConsoleApp3
     }
     public class BookControl
     {
-       public List<Book> books = new List<Book>();
-        public void addBooks(string genre,string author,string name)
+        public Book[] books;
+        public void addBooks(string genre,string author,string name, int index)
         {
-            books.Add(new Book(genre, author, name));
+            books[index] = new Book(genre, author, name);
         }
         public List<Book> sort(List<Book> book)
         {
@@ -32,6 +32,10 @@ namespace ConsoleApp3
                            orderby newList.genre, newList.author, newList.name
                            select newList;
             return (List<Book>)sortList;
+        }
+        public BookControl(int num)
+        {
+            books = new Book[num];
         }
         public void saveInFile(List<Book> book)
         {
@@ -49,14 +53,40 @@ namespace ConsoleApp3
     {
         static void Main(string[] args)
         {
-            BookControl bc = new BookControl();
+            
             int num;
-
-            Console.Write("Введите количество добавляемых книг:");
-
-            if (!(int.TryParse(Console.ReadLine(), out num)))
+            while (true)
             {
+                Console.Write("Введите количество добавляемых книг:");
 
+                if (!(int.TryParse(Console.ReadLine(), out num)))
+                {
+                    Console.WriteLine("Введено не число");
+                    continue;
+                }
+                else if(num <= 0)
+                {
+                    Console.WriteLine("Количество не может быть отрицательным или равным нулю");
+                    continue;
+                }
+
+                else
+                    break;
+            }
+            string genre;
+            string author;
+            string name;
+            BookControl bc = new BookControl(num);
+            for (int i = 0; i < num; i++)
+            {
+                Console.WriteLine($"Заполнение {i+1} книги:");
+                Console.Write("\tВведите жанр:");
+                genre = Console.ReadLine();
+                Console.Write("\tВведите автора:");
+                author = Console.ReadLine();
+                Console.Write("\tВведите название:");
+                name = Console.ReadLine();
+                bc.addBooks(genre,author,name,i);
             }
         }
     }
