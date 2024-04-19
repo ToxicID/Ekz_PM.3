@@ -29,7 +29,7 @@ namespace ConsoleApp3
         public Book[] sort(Book[] book)
         {
             var sortList = from newList in book
-                           orderby newList.genre, newList.author, newList.name
+                           orderby newList.genre descending, newList.author descending, newList.name descending
                            select newList;
             return sortList.ToArray();
         }
@@ -37,11 +37,11 @@ namespace ConsoleApp3
         {
             books = new Book[num];
         }
-        public void saveInFile(List<Book> book)
+        public void saveInFile(Book[] book)
         {
             using (StreamWriter writer = new StreamWriter("test.txt", false, System.Text.Encoding.UTF8))
             {
-                for (int i = 0; i < book.Count; i++)
+                for (int i = 0; i < book.Length; i++)
                 {
                     writer.WriteLine(book[i].genre + ";" + book[i].author + ";" + book[i].name);
                 }
@@ -52,14 +52,14 @@ namespace ConsoleApp3
         {
          
                 Console.WriteLine("{0,5}{1,10}{2,30}{3,30}", "№","Жанр", "Автор", "Название");
-                Console.WriteLine("__________________________________________________________________________");
+                Console.WriteLine("_______________________________________________________________________________");
             int a = 1;
                 foreach (var b in books)
                 {
                     Console.WriteLine("{0,5}{1,10}{2,30}{3,30}", a,b.genre, b.author, b.name);
                 a++;
                 }
-                Console.WriteLine("--------------------------------------------------------------------------");
+                Console.WriteLine("-------------------------------------------------------------------------------");
             
         }
     }
@@ -102,8 +102,11 @@ namespace ConsoleApp3
                 name = Console.ReadLine();
                 bc.addBooks(genre,author,name,i);
             }
-            Console.WriteLine("\n\n");
+            Console.WriteLine("\nОтсортированный массив:");
+            bc.books = bc.sort(bc.books);
             bc.printMass();
+            bc.saveInFile(bc.books);
+            Console.WriteLine("Данные сохранены в файл:\"test.txt\"");
             Console.ReadKey();
         }
     }
