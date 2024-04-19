@@ -26,12 +26,12 @@ namespace ConsoleApp3
         {
             books[index] = new Book(genre, author, name);
         }
-        public List<Book> sort(List<Book> book)
+        public Book[] sort(Book[] book)
         {
             var sortList = from newList in book
                            orderby newList.genre, newList.author, newList.name
                            select newList;
-            return (List<Book>)sortList;
+            return sortList.ToArray();
         }
         public BookControl(int num)
         {
@@ -47,6 +47,20 @@ namespace ConsoleApp3
                 }
 
             }
+        }
+        public void printMass()
+        {
+         
+                Console.WriteLine("{0,5}{1,10}{2,30}{3,30}", "№","Жанр", "Автор", "Название");
+                Console.WriteLine("__________________________________________________________________________");
+            int a = 1;
+                foreach (var b in books)
+                {
+                    Console.WriteLine("{0,5}{1,10}{2,30}{3,30}", a,b.genre, b.author, b.name);
+                a++;
+                }
+                Console.WriteLine("--------------------------------------------------------------------------");
+            
         }
     }
     class Program
@@ -88,6 +102,9 @@ namespace ConsoleApp3
                 name = Console.ReadLine();
                 bc.addBooks(genre,author,name,i);
             }
+            Console.WriteLine("\n\n");
+            bc.printMass();
+            Console.ReadKey();
         }
     }
 }
