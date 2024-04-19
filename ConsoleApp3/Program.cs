@@ -49,7 +49,15 @@ namespace ConsoleApp3
     {
         static void Main(string[] args)
         {
-            
+            BookControl bc = new BookControl();
+            int num;
+
+            Console.Write("Введите количество добавляемых книг:");
+
+            if (!(int.TryParse(Console.ReadLine(), out num)))
+            {
+
+            }
         }
     }
 }
